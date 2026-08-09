@@ -25,7 +25,8 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+          sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386 libncurses6:i386 || \
+          sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
 
       - name: Set up JDK 8 for Gradle build
         uses: actions/setup-java@v4
