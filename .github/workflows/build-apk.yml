@@ -1,4 +1,4 @@
-warn: Build KorexCode APK
+name: Build KorexCode APK
 
 on:
   workflow_dispatch:
