@@ -29,11 +29,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew :catroid:assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: KorexCode-debug-apk
-          path: catroid/build/outputs/apk/*.apk
+          path: build/outputs/apk/*.apk
           if-no-files-found: warn
