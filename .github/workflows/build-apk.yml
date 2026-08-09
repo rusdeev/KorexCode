@@ -12,33 +12,28 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Этот проект (2015 г., Android Gradle Plugin 1.5.0, Gradle 2.2.1)
-      # требует старый JDK 8 — с новым JDK сборка не пройдёт.
-      - name: Set up JDK 8
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
-
       - name: Set up old Android SDK components
         uses: android-actions/setup-android@v3
 
       - name: Install legacy SDK platform & build-tools
         run: |
-          sdkmanager "platforms;android-23" "build-tools;23.0.0" "platforms;android-16" || true
-        working-directory: Pocket-Code-master
+          sdkmanager "platforms;android-23" "build-tools;23.0.0" "platforms;android-16"
+
+      - name: Set up JDK 8 for Gradle build
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '8'
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        working-directory: Pocket-Code-master
 
       - name: Build debug APK
         run: ./gradlew :catroid:assembleDebug --stacktrace
-        working-directory: Pocket-Code-master
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: KorexCode-debug-apk
-          path: Pocket-Code-master/catroid/build/outputs/apk/*.apk
+          path: catroid/build/outputs/apk/*.apk
           if-no-files-found: warn
