@@ -38,7 +38,7 @@ public final class Constants {
 	public static final String PROJECTPERMISSIONS_NAME = "permissions.txt";
 	public static final String PROJECTCODE_NAME_TMP = "tmp_" + PROJECTCODE_NAME;
 
-	public static final String CATROBAT_EXTENSION = ".catrobat";
+	public static final String CATROBAT_EXTENSION = ".krx";
 	public static final String IMAGE_STANDARD_EXTENTION = ".png";
 	public static final String SOUND_STANDARD_EXTENSION = ".wav";
 

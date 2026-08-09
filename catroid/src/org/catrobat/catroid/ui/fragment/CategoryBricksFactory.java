@@ -69,6 +69,9 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.IfOnEdgeBounceBrick;
+import org.catrobat.catroid.content.bricks.RandomPositionBrick;
+import org.catrobat.catroid.content.bricks.RotateToRandomAngleBrick;
+import org.catrobat.catroid.content.bricks.ShakeBrick;
 import org.catrobat.catroid.content.bricks.InsertItemIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
@@ -269,6 +272,9 @@ public class CategoryBricksFactory {
 		if (!isBackground(sprite)) {
 			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
 			motionBrickList.add(new ComeToFrontBrick());
+			motionBrickList.add(new RandomPositionBrick());
+			motionBrickList.add(new RotateToRandomAngleBrick());
+			motionBrickList.add(new ShakeBrick(BrickValues.SHAKE_INTENSITY));
 		}
 		if (BuildConfig.FEATURE_VIBRATION_BRICK_ENABLED) {
 			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));

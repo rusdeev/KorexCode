@@ -33,6 +33,7 @@ public final class BrickValues {
 	public static final Float POINT_IN_DIRECTION = 90f;
 	public static final int GLIDE_SECONDS = 1000;
 	public static final int GO_BACK = 1;
+	public static final int SHAKE_INTENSITY = 10;
 	public static final int DURATION = 1;
 
 	//constants Looks

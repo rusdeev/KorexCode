@@ -88,6 +88,7 @@
     <string name="main_menu_programs">Programs</string>
     <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Explore</string>
+    <string name="main_menu_telegram">Telegram</string>
     <string name="main_menu_upload">Upload</string>
     <string name="main_menu_about_pocketcode">About KorexCode</string>
     <string name="main_menu_terms_of_use">Terms of use</string>
@@ -501,6 +502,9 @@
 
     <string name="brick_come_to_front">Go to front</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
+    <string name="brick_random_position">Go to random position</string>
+    <string name="brick_shake">Shake by</string>
+    <string name="brick_rotate_random">Rotate to random angle</string>
     <string name="brick_move">Move</string>
 
     <plurals name="brick_move_n_step_plural">

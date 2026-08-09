@@ -119,7 +119,7 @@
 
                 <data
                     android:host="*"
-                    android:mimeType="application/catrobat+zip"
+                    android:mimeType="application/krx+zip"
                     android:pathPattern="@string/catroid_extension_pathPattern"
                     android:scheme="file" />
             </intent-filter>

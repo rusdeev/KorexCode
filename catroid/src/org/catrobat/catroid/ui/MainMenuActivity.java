@@ -243,6 +243,11 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		startActivity(intent);
 	}
 
+	public void handleTelegramButton(View view) {
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/kontora_pdrsv"));
+		startActivity(intent);
+	}
+
 	public void handleUploadButton(View view) {
 		if (!viewSwitchLock.tryLock()) {
 			return;

@@ -122,6 +122,25 @@ public class ExtendedActions extends Actions {
 		return action;
 	}
 
+	public static RandomPositionAction randomPosition(Sprite sprite) {
+		RandomPositionAction action = action(RandomPositionAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public static ShakeAction shake(Sprite sprite, Formula intensity) {
+		ShakeAction action = action(ShakeAction.class);
+		action.setSprite(sprite);
+		action.setIntensity(intensity);
+		return action;
+	}
+
+	public static RotateToRandomAngleAction rotateToRandomAngle(Sprite sprite) {
+		RotateToRandomAngleAction action = action(RotateToRandomAngleAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static ComeToFrontAction comeToFront(Sprite sprite) {
 		ComeToFrontAction action = action(ComeToFrontAction.class);
 		action.setSprite(sprite);

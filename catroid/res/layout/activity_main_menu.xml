@@ -95,6 +95,16 @@
         android:text="@string/main_menu_web" />
 
     <Button
+        android:id="@+id/main_menu_button_telegram"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_community"
+        android:drawableStart="@drawable/ic_main_menu_community"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleTelegramButton"
+        android:text="@string/main_menu_telegram" />
+
+    <Button
         android:id="@+id/main_menu_button_upload"
         style="@style/MainMenuButton"
         android:drawableLeft="@drawable/ic_main_menu_upload"

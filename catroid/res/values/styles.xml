@@ -26,12 +26,12 @@
     <style name="Theme.Catroid" parent="android:Theme.Holo" >
         <item name="android:actionBarStyle" >@style/Widget.Catroid.ActionBar</item >
         <item name="android:windowBackground" >@color/application_background_color</item >
-        <item name="android:typeface">serif</item>
+        <item name="android:typeface">sans</item>
 
     </style >
 
     <style name="Widget.Catroid.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse" >
-        <item name="android:background" >@drawable/actionbar_background</item >
+        <item name="android:background" >@drawable/actionbar_background_flat</item >
         <item name="android:homeAsUpIndicator" >@drawable/ic_actionbar_back</item >
         <item name="android:titleTextStyle" >@style/Widget.Catroid.ActionBar.Title</item >
         <item name="android:height" >@dimen/actionbar_height</item >
@@ -146,10 +146,6 @@
         <item name="android:paddingRight" >14dp</item >
         <item name="android:textSize" >@dimen/text_size_main_menu_buttons</item >
         <item name="android:textColor" >@color/main_menu_button_text_color</item >
-        <item name="android:shadowColor" >@color/main_menu_button_text_shadow_color</item >
-        <item name="android:shadowRadius" >1.5</item >
-        <item name="android:shadowDx" >0</item >
-        <item name="android:shadowDy" >3</item >
     </style >
 
     <style name="MainMenuButtonTextSecondLine" >
