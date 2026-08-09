@@ -1,4 +1,4 @@
-name: Build KorexCode APK
+warn: Build KorexCode APK
 
 on:
   workflow_dispatch:
@@ -21,6 +21,12 @@ jobs:
           yes | sdkmanager --licenses || true
           sdkmanager "platforms;android-23" "build-tools;23.0.0" "platforms;android-16"
 
+      - name: Install 32-bit compatibility libraries for legacy aapt
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+
       - name: Set up JDK 8 for Gradle build
         uses: actions/setup-java@v4
         with:
@@ -35,6 +41,7 @@ jobs:
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
           ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+          SLAVE_AAPT_TIMEOUT: "60"
         run: ./gradlew assembleDebug --stacktrace --no-daemon < /dev/null
 
       - name: Upload APK artifact
