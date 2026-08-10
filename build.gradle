@@ -104,6 +104,7 @@ dependencies {
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
     implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.gms:play-services-auth:8.4.0'
     implementation fileTree(include: '*.jar', dir: 'catroid/libs')
     implementation fileTree(include: '*.jar', dir: 'catroid/libs-natives')
@@ -169,6 +170,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 33
+        multiDexEnabled true
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'
