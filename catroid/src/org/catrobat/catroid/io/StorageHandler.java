@@ -170,8 +170,6 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
@@ -397,7 +395,9 @@ public final class StorageHandler {
 		}
 
 		boolean result = codeFileSanityCheck(projectName);
-		assertTrue(result);
+		if (!result) {
+			throw new IllegalStateException("codeFileSanityCheck failed for project " + projectName);
+		}
 
 		Log.d(TAG, "loadProject " + projectName);
 
@@ -477,7 +477,6 @@ public final class StorageHandler {
 							+ projectXml.length() + ">. update " + currentCodeFile.getName());
 				} catch (Exception exception) {
 					Log.e(TAG, "Opening old project " + currentCodeFile.getName() + " failed.", exception);
-					fail("Opening old project " + currentCodeFile.getName() + " failed.");
 					return false;
 				}
 			}

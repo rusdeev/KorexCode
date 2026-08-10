@@ -189,6 +189,10 @@ public final class Utils {
 		errorDialog.show();
 	}
 
+	public static void showErrorDialog(Context context, String msg) {
+		showErrorDialog(context, msg, R.string.error);
+	}
+
 	public static void showErrorDialog(Context context, String msg, int errorTitleId) {
 		Builder builder = new CustomAlertDialogBuilder(context);
 		builder.setTitle(errorTitleId);
