@@ -22,68 +22,114 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <ScrollView
-    style="@style/DefaultDialog"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:paddingBottom="0dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
+    android:background="@drawable/godot_dialog_background">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/dialog_item_margin">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <org.catrobat.catroid.ui.CapitalizedTextView
+        <TextView
             android:id="@+id/project_name"
-            style="@style/DefaultDialog.TextView"
-            android:text="@string/new_project_name"/>
-
-        <View
-            android:id="@+id/project_name_line"
-            style="@style/DefaultDialog.Line"
-            android:layout_below="@+id/project_name"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/new_project_name"
+            android:textColor="@color/main_menu_button_text_color"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/project_name_edittext"
-            style="@style/DefaultDialog.EditText"
-            android:layout_below="@+id/project_name_line"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/godot_edittext_selector"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
             android:hint="@string/new_project_dialog_hint"
+            android:textColor="@color/main_menu_button_text_color"
+            android:textColorHint="@color/godot_text_secondary"
+            android:textSize="15sp"
             android:inputType="text"
             android:maxLines="1"
             android:selectAllOnFocus="true"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/new_project_choose_template"
+            android:textColor="@color/godot_text_secondary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:letterSpacing="0.06" />
+
         <RadioGroup
+            android:id="@+id/project_template_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checkedButton="@+id/project_empty_radio_button"
-            android:layout_below="@+id/project_name_edittext"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
             <RadioButton
                 android:id="@+id/project_empty_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:minHeight="52dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@drawable/godot_option_card_normal"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:gravity="center_vertical"
+                android:textColor="@color/main_menu_button_text_color"
+                android:textSize="15sp"
                 android:text="@string/new_project_empty" />
 
             <RadioButton
                 android:id="@+id/project_default_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:minHeight="52dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@drawable/godot_option_card_normal"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:gravity="center_vertical"
+                android:textColor="@color/main_menu_button_text_color"
+                android:textSize="15sp"
                 android:text="@string/new_project_default" />
 
             <RadioButton
                 android:id="@+id/project_default_drone_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:minHeight="52dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:background="@drawable/godot_option_card_normal"
+                android:button="@null"
+                android:drawableRight="@android:drawable/btn_radio"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:gravity="center_vertical"
+                android:textColor="@color/main_menu_button_text_color"
+                android:textSize="15sp"
                 android:text="@string/new_project_default_drone"
                 android:visibility="gone"/>
         </RadioGroup>
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

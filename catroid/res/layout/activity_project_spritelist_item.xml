@@ -31,6 +31,10 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/spritelist_item_height"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal" >
 
         <CheckBox
@@ -48,18 +52,19 @@
             android:id="@+id/spritelist_item_background"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="@drawable/godot_list_row_selector"
             android:longClickable="false">
 
             <ImageView
                 android:id="@+id/sprite_img"
-                android:layout_width="72dp"
-                android:layout_height="65dp"
+                android:layout_width="68dp"
+                android:layout_height="60dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="9dp"
-                android:layout_marginStart="9dp"
-                android:background="@drawable/spritelist_item_thumbnail_border"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/godot_thumbnail_border"
                 android:cropToPadding="true"
-                android:padding="1.5dp"
+                android:padding="2dp"
                 android:scaleType="centerCrop" />
 
             <include layout="@layout/activity_project_sprite_title_details_view" />

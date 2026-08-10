@@ -109,6 +109,26 @@ public class OrientationDialog extends DialogFragment {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			dismiss();
 			return;
+		} catch (SecurityException securityException) {
+			// Thrown when storage permission has not been granted at runtime
+			// (required on Android 6.0+ even though it is declared in the manifest).
+			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+			Log.e(TAG, Log.getStackTraceString(securityException));
+			dismiss();
+			return;
+		} catch (RuntimeException runtimeException) {
+			// Defensive: never let project creation crash the app outright -
+			// show an error instead so the user can retry.
+			Utils.showErrorDialog(getActivity(), R.string.error_new_project);
+			Log.e(TAG, Log.getStackTraceString(runtimeException));
+			dismiss();
+			return;
+		}
+
+		if (getActivity() == null) {
+			Log.e(TAG, "handleOkButtonClick() Activity was null after project creation!");
+			dismiss();
+			return;
 		}
 
 		Intent intent = new Intent(getActivity(), ProjectActivity.class);

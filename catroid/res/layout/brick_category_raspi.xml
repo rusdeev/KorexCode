@@ -25,6 +25,16 @@
     style="@style/BrickCategory" >
 
     <TextView
+        android:layout_width="@dimen/brick_category_badge_size"
+        android:layout_height="@dimen/brick_category_badge_size"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/brick_category_badge_raspi"
+        android:gravity="center"
+        android:text="B"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+    <TextView
         style="@style/BrickCategoryText.Raspi"
         android:text="@string/category_raspi" >
     </TextView>

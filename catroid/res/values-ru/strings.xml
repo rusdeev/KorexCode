@@ -314,6 +314,7 @@
   <string name="new_project_dialog_hint">Мой проект</string>
   <string name="new_project_description_dialog_hint">Описание</string>
   <string name="new_project_name">Название:</string>
+  <string name="new_project_choose_template">Выберите шаблон</string>
   <string name="new_project_empty">Создать пустой проект</string>
   <string name="new_project_default">Create example Program</string>
   <string name="new_project_default_drone">Create example Drone Program</string>
@@ -558,6 +559,11 @@
   <string name="project_rename">(Ваш проект будет переименован.)</string>
   <string name="size_of_project">Размер проекта:</string>
   <string name="upload_button">Загрузить</string>
+  <string name="export_apk_button">Экспорт в APK</string>
+  <string name="export_apk_in_progress">Сборка APK…</string>
+  <string name="export_apk_success">APK сохранён: %1$s</string>
+  <string name="export_apk_failure">Не удалось экспортировать APK: %1$s</string>
+  <string name="export_apk_install_prompt">Установить экспортированное приложение?</string>
   <string name="upload_project_dialog_title">Загрузить проект</string>
   <string name="upload_description">Описание:</string>
   <string name="drone_emergency_battery_low">Уровень батареи мал. Автоматическая выгрузка.</string>

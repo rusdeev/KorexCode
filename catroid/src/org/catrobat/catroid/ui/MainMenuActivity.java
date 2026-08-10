@@ -91,6 +91,14 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		if (!Utils.checkForExternalStorageAvailableAndDisplayErrorIfNot(this)) {
 			return;
 		}
+
+		String embeddedProjectName = org.catrobat.catroid.export.EmbeddedProjectLauncher
+				.getOrExtractEmbeddedProjectName(this);
+		if (embeddedProjectName != null) {
+			launchEmbeddedProject(embeddedProjectName);
+			return;
+		}
+
 		initializeFacebookSdk();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
@@ -168,6 +176,19 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 		Intent intent = new Intent(this, ProjectActivity.class);
 		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, Utils.getCurrentProjectName(this));
 		startActivity(intent);
+	}
+
+	private void launchEmbeddedProject(String projectName) {
+		try {
+			ProjectManager.getInstance().loadProject(projectName, this);
+			Intent intent = new Intent(this, ProjectActivity.class);
+			intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+			startActivity(intent);
+			finish();
+		} catch (Exception exception) {
+			Log.e(TAG, "Could not load embedded project", exception);
+			Utils.showErrorDialog(this, R.string.error_load_project);
+		}
 	}
 
 	private void loadProjectInBackground(String projectName) {
@@ -253,6 +274,124 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 			return;
 		}
 		ProjectManager.getInstance().uploadProject(Utils.getCurrentProjectName(this), this);
+	}
+
+	private static final int REQUEST_CODE_IMPORT_PROJECT = 200;
+
+	public void handleImportButton(View view) {
+		if (!viewSwitchLock.tryLock()) {
+			return;
+		}
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+		intent.setType("*/*");
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		try {
+			startActivityForResult(Intent.createChooser(intent, getString(R.string.main_menu_import)),
+					REQUEST_CODE_IMPORT_PROJECT);
+		} catch (ActivityNotFoundException activityNotFoundException) {
+			Utils.showErrorDialog(this, R.string.error_import_project);
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (requestCode == REQUEST_CODE_IMPORT_PROJECT && resultCode == Activity.RESULT_OK && data != null) {
+			Uri pickedFileUri = data.getData();
+			if (pickedFileUri != null) {
+				importProjectFromUri(pickedFileUri);
+			}
+		}
+	}
+
+	/**
+	 * Imports a .catrobat project file picked from the device (via any file
+	 * manager or cloud provider). Content resolved through content:// URIs is
+	 * copied into our own temp directory first, since UtilZip.unZipFile needs a
+	 * real file path and most modern file pickers do not expose one directly.
+	 */
+	private void importProjectFromUri(Uri projectUri) {
+		String fileName = null;
+
+		Cursor cursor = getContentResolver().query(projectUri, null, null, null, null);
+		if (cursor != null) {
+			try {
+				int nameIndex = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);
+				if (cursor.moveToFirst() && nameIndex >= 0) {
+					fileName = cursor.getString(nameIndex);
+				}
+			} finally {
+				cursor.close();
+			}
+		}
+
+		if (fileName == null) {
+			fileName = "imported_project" + Constants.CATROBAT_EXTENSION;
+		}
+
+		File tempDir = new File(Constants.TMP_PATH);
+		if (!tempDir.exists() && !tempDir.mkdirs()) {
+			Utils.showErrorDialog(this, R.string.error_import_project);
+			return;
+		}
+
+		File tempZipFile = new File(tempDir, fileName);
+
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		try {
+			inputStream = getContentResolver().openInputStream(projectUri);
+			if (inputStream == null) {
+				Utils.showErrorDialog(this, R.string.error_import_project);
+				return;
+			}
+			outputStream = new FileOutputStream(tempZipFile);
+
+			byte[] buffer = new byte[8192];
+			int bytesRead;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+			outputStream.flush();
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+			Utils.showErrorDialog(this, R.string.error_import_project);
+			return;
+		} finally {
+			closeQuietly(inputStream);
+			closeQuietly(outputStream);
+		}
+
+		String baseName = fileName;
+		int extensionIndex = baseName.lastIndexOf('.');
+		String projectName = extensionIndex > 0 ? baseName.substring(0, extensionIndex) : baseName;
+
+		if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(projectName)) {
+			Utils.showErrorDialog(this, R.string.error_project_exists);
+			return;
+		}
+
+		if (!UtilZip.unZipFile(tempZipFile.getAbsolutePath(), Utils.buildProjectPath(projectName))) {
+			Utils.showErrorDialog(this, R.string.error_import_project);
+			return;
+		}
+
+		tempZipFile.delete();
+
+		Intent intent = new Intent(this, ProjectActivity.class);
+		intent.putExtra(Constants.PROJECTNAME_TO_LOAD, projectName);
+		startActivity(intent);
+	}
+
+	private void closeQuietly(Closeable closeable) {
+		if (closeable != null) {
+			try {
+				closeable.close();
+			} catch (IOException ignored) {
+				// nothing we can do
+			}
+		}
 	}
 
 	private void loadProgramFromExternalSource(Uri loadExternalProjectUri) {

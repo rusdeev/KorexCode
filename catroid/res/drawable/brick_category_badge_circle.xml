@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Plain circle, tinted per-category (see brick_category_*.xml) to form the
+     round color badge shown at the start of each category row. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@android:color/white" />
+</shape>

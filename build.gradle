@@ -108,6 +108,8 @@ dependencies {
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+    compile 'org.bouncycastle:bcpkix-jdk15on:1.56'
+    compile 'org.bouncycastle:bcprov-jdk15on:1.56'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile fileTree(include: '*.jar', dir: 'catroid/libs')

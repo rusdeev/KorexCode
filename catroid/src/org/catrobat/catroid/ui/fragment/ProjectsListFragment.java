@@ -66,6 +66,7 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectEditListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
+import org.catrobat.catroid.ui.dialogs.ProjectSettingsDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -395,8 +396,15 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				showSetDescriptionDialog();
 				break;
 
+			case R.id.context_menu_project_settings:
+				showProjectSettingsDialog();
+				break;
+
 			case R.id.context_menu_upload:
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
+				break;
+			case R.id.context_menu_export_apk:
+				startApkExport(projectToEdit.projectName);
 				break;
 			case R.string.merge_button:
 				String firstProjectName = ProjectManager.getInstance().getCurrentProject().getName();
@@ -483,6 +491,11 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
 		dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
 		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
+	}
+
+	private void showProjectSettingsDialog() {
+		ProjectSettingsDialog dialogProjectSettings = new ProjectSettingsDialog();
+		dialogProjectSettings.show(getActivity().getFragmentManager(), ProjectSettingsDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showCopyProjectDialog() {
@@ -606,5 +619,81 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				adapter.notifyDataSetChanged();
 			}
 		}
+	}
+
+	private void startApkExport(final String projectName) {
+		final android.app.ProgressDialog progressDialog = new android.app.ProgressDialog(getActivity());
+		progressDialog.setMessage(getString(R.string.export_apk_in_progress));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+
+		final String projectPath = org.catrobat.catroid.utils.Utils.buildProjectPath(projectName);
+		final android.content.Context appContext = getActivity().getApplicationContext();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				org.catrobat.catroid.export.ApkExporter.export(appContext, projectPath, projectName,
+						new org.catrobat.catroid.export.ApkExporter.ExportCallback() {
+							@Override
+							public void onSuccess(final java.io.File exportedApkFile) {
+								if (getActivity() == null) {
+									return;
+								}
+								getActivity().runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										progressDialog.dismiss();
+										showApkExportSuccessDialog(exportedApkFile);
+									}
+								});
+							}
+
+							@Override
+							public void onFailure(final String errorMessage) {
+								if (getActivity() == null) {
+									return;
+								}
+								getActivity().runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										progressDialog.dismiss();
+										Utils.showErrorDialog(getActivity(),
+												getString(R.string.export_apk_failure, errorMessage));
+									}
+								});
+							}
+						});
+			}
+		}).start();
+	}
+
+	private void showApkExportSuccessDialog(final java.io.File exportedApkFile) {
+		new AlertDialog.Builder(getActivity())
+				.setTitle(R.string.export_apk_button)
+				.setMessage(getString(R.string.export_apk_success, exportedApkFile.getAbsolutePath()))
+				.setPositiveButton(R.string.export_apk_install_prompt, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						installApk(exportedApkFile);
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+	}
+
+	private void installApk(java.io.File apkFile) {
+		android.content.Intent installIntent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
+		android.net.Uri apkUri;
+		if (android.os.Build.VERSION.SDK_INT >= 24) {
+			apkUri = android.support.v4.content.FileProvider.getUriForFile(getActivity(),
+					"org.catrobat.catroid.fileprovider", apkFile);
+			installIntent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
+		} else {
+			apkUri = android.net.Uri.fromFile(apkFile);
+		}
+		installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+		installIntent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(installIntent);
 	}
 }

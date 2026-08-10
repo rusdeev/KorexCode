@@ -90,6 +90,8 @@
     <string name="main_menu_web">Explore</string>
     <string name="main_menu_telegram">Telegram</string>
     <string name="main_menu_upload">Upload</string>
+    <string name="main_menu_import">Import project</string>
+    <string name="error_import_project">Could not import the selected project file.</string>
     <string name="main_menu_about_pocketcode">About KorexCode</string>
     <string name="main_menu_terms_of_use">Terms of use</string>
     <string name="main_menu_rate_app">Rate us!</string>
@@ -306,6 +308,7 @@
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
+    <string name="project_settings">Settings</string>
     <string name="rename_project">Rename Program</string>
     <string name="copy_project_finished"> copied.</string>
     <string name="program">Program</string>
@@ -386,6 +389,7 @@
     <string name="new_project_dialog_hint">My Program</string>
     <string name="new_project_description_dialog_hint">My description</string>
     <string name="new_project_name">Program name</string>
+    <string name="new_project_choose_template">Choose a template</string>
     <string name="new_project_empty">Create empty Program</string>
     <string name="new_project_default">Create example Program</string>
     <string name="new_project_default_drone">Create example Drone Program</string>
@@ -684,6 +688,11 @@
     <string name="project_rename">(Your Program will be renamed.)</string>
     <string name="size_of_project">Size:</string>
     <string name="upload_button">Upload</string>
+    <string name="export_apk_button">Export as APK</string>
+    <string name="export_apk_in_progress">Building APK\u2026</string>
+    <string name="export_apk_success">APK saved to %1$s</string>
+    <string name="export_apk_failure">Could not export APK: %1$s</string>
+    <string name="export_apk_install_prompt">Install exported app?</string>
     <string name="upload_project_dialog_title">Upload program</string>
     <string name="upload_description">Description:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>

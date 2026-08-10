@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded card background used behind each brick-category row, with a
+     ripple/pressed state so the list feels tappable instead of flat. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/godot_card_background_pressed">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/godot_card_background" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+</ripple>

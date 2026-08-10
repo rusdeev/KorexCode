@@ -45,8 +45,15 @@ public class BrickCategoryAdapter extends BaseAdapter {
 	@Override
 	public String getItem(int position) {
 		LinearLayout layout = (LinearLayout) (categories.get(position));
-		TextView textView = (TextView) layout.getChildAt(0);
-		return textView.getText().toString();
+		// Row layout is now [badge, TextView] - find the TextView regardless of
+		// its position so this keeps working if the row structure changes again.
+		for (int i = 0; i < layout.getChildCount(); i++) {
+			View child = layout.getChildAt(i);
+			if (child instanceof TextView) {
+				return ((TextView) child).getText().toString();
+			}
+		}
+		return "";
 	}
 
 	@Override
