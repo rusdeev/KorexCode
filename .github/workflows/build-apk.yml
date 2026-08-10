@@ -1,53 +1,48 @@
-name: Build KorexCode APK
+name: Build APK
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ master, main ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up old Android SDK components
-        uses: android-actions/setup-android@v3
-
-      - name: Install legacy SDK platform & build-tools
-        run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-23" "build-tools;23.0.0" "platforms;android-16"
-
-      - name: Install 32-bit compatibility libraries for legacy aapt
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386 libncurses6:i386 || \
-          sudo apt-get install -y libc6:i386 libstdc++6:i386 zlib1g:i386
-
-      - name: Set up JDK 8 for Gradle build
+      # Modernized toolchain: AGP 7.4.2 requires JDK 11+.
+      - name: Set up JDK 11
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '8'
+          distribution: temurin
+          java-version: '11'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install SDK components (API 33, build-tools 33.0.2)
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-33" "build-tools;33.0.2"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build debug APK
-        timeout-minutes: 20
+        run: ./gradlew :assembleDebug --stacktrace
         env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
-          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-          SLAVE_AAPT_TIMEOUT: "60"
-        run: ./gradlew assembleDebug --stacktrace --no-daemon < /dev/null
+          GRADLE_OPTS: -Dorg.gradle.jvmargs=-Xmx2g
+
+      - name: Locate APK
+        run: find . -name "*.apk"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: KorexCode-debug-apk
-          path: build/outputs/apk/*.apk
-          if-no-files-found: warn
+          name: korexcode-debug-apk
+          path: build/outputs/apk/**/*.apk
+          if-no-files-found: error

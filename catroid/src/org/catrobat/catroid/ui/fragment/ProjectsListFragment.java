@@ -66,7 +66,6 @@ import org.catrobat.catroid.ui.adapter.ProjectAdapter.OnProjectEditListener;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog;
 import org.catrobat.catroid.ui.dialogs.CopyProjectDialog.OnCopyProjectListener;
 import org.catrobat.catroid.ui.dialogs.CustomAlertDialogBuilder;
-import org.catrobat.catroid.ui.dialogs.ProjectSettingsDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog;
 import org.catrobat.catroid.ui.dialogs.RenameProjectDialog.OnProjectRenameListener;
 import org.catrobat.catroid.ui.dialogs.SetDescriptionDialog;
@@ -396,10 +395,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 				showSetDescriptionDialog();
 				break;
 
-			case R.id.context_menu_project_settings:
-				showProjectSettingsDialog();
-				break;
-
 			case R.id.context_menu_upload:
 				ProjectManager.getInstance().uploadProject(projectToEdit.projectName, this.getActivity());
 				break;
@@ -491,11 +486,6 @@ public class ProjectsListFragment extends ListFragment implements OnProjectRenam
 		SetDescriptionDialog dialogSetDescription = SetDescriptionDialog.newInstance(projectToEdit.projectName);
 		dialogSetDescription.setOnUpdateProjectDescriptionListener(ProjectsListFragment.this);
 		dialogSetDescription.show(getActivity().getFragmentManager(), SetDescriptionDialog.DIALOG_FRAGMENT_TAG);
-	}
-
-	private void showProjectSettingsDialog() {
-		ProjectSettingsDialog dialogProjectSettings = new ProjectSettingsDialog();
-		dialogProjectSettings.show(getActivity().getFragmentManager(), ProjectSettingsDialog.DIALOG_FRAGMENT_TAG);
 	}
 
 	private void showCopyProjectDialog() {

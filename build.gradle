@@ -23,19 +23,19 @@
 
 buildscript {
     repositories {
+        google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
 repositories {
+    google()
     mavenCentral()
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 //apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
@@ -91,33 +91,33 @@ ext {
 }
 
 configurations {
-    compile.exclude group: 'xpp3' //compile problem with xstream
+    implementation.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
 
 dependencies {
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
-    compile 'com.thoughtworks.xstream:xstream:1.4.7'
+    implementation 'com.google.guava:guava:18.0'
+    implementation 'com.squareup.okhttp:okhttp:2.3.0'
+    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.github.johnpersano:supertoasts:1.3.4@aar'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.7'
     def gdxVersion = '1.6.2'
-    compile 'com.badlogicgames.gdx:gdx:' + gdxVersion
-    compile 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
+    implementation 'com.badlogicgames.gdx:gdx:' + gdxVersion
+    implementation 'com.badlogicgames.gdx:gdx-backend-android:' + gdxVersion
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-x86'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi'
     natives 'com.badlogicgames.gdx:gdx-platform:' + gdxVersion + ':natives-armeabi-v7a'
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
-    compile 'org.bouncycastle:bcpkix-jdk15on:1.56'
-    compile 'org.bouncycastle:bcprov-jdk15on:1.56'
-    compile 'com.android.support:support-v4:19.1.0'
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile fileTree(include: '*.jar', dir: 'catroid/libs')
-    compile fileTree(include: '*.jar', dir: 'catroid/libs-natives')
-    androidTestCompile fileTree(include: '*.jar', dir: 'catroidTest/libs')
-    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+    implementation 'com.facebook.android:facebook-android-sdk:4.6.0'
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.56'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.google.android.gms:play-services-auth:8.4.0'
+    implementation fileTree(include: '*.jar', dir: 'catroid/libs')
+    implementation fileTree(include: '*.jar', dir: 'catroid/libs-natives')
+    androidTestImplementation fileTree(include: '*.jar', dir: 'catroidTest/libs')
+    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.2.1'
+    androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestImplementation 'org.mockito:mockito-core:1.10.19'
     pmd 'net.sourceforge.pmd:pmd:5.1.1'
     checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
 }
@@ -173,11 +173,11 @@ def getCurrentGitBranch() {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.0'
+    compileSdkVersion 33
+    buildToolsVersion '33.0.2'
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 33
         applicationId 'org.catrobat.catroid'
         testApplicationId "org.catrobat.catroid.test"
         testInstrumentationRunner 'pl.polidea.instrumentation.PolideaInstrumentationTestRunner'

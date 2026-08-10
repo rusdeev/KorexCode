@@ -22,16 +22,11 @@
  */
 package org.catrobat.catroid.ui;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,57 +47,11 @@ public class BaseActivity extends Activity {
 	private String titleActionBar;
 	private Menu baseMenu;
 
-	private static final int PERMISSIONS_REQUEST_STORAGE = 100;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		titleActionBar = null;
 		returnToProjectsList = false;
-		requestStoragePermissionsIfNeeded();
-	}
-
-	/**
-	 * On Android 6.0 (API 23) and above, granting a dangerous permission (like
-	 * WRITE_EXTERNAL_STORAGE) in the manifest is not enough - it must also be
-	 * requested at runtime, otherwise all file writes/reads silently fail or throw
-	 * a SecurityException. Without this, project creation, saving, and importing
-	 * media (sprites/sounds) from the device storage do not work, and any code path
-	 * that assumes storage access succeeded can crash.
-	 */
-	protected void requestStoragePermissionsIfNeeded() {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-			return;
-		}
-
-		boolean hasWrite = ContextCompat.checkSelfPermission(this,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-		boolean hasRead = ContextCompat.checkSelfPermission(this,
-				Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-
-		if (!hasWrite || !hasRead) {
-			ActivityCompat.requestPermissions(this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-							Manifest.permission.READ_EXTERNAL_STORAGE},
-					PERMISSIONS_REQUEST_STORAGE);
-		}
-	}
-
-	@Override
-	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-		if (requestCode == PERMISSIONS_REQUEST_STORAGE) {
-			boolean allGranted = grantResults.length > 0;
-			for (int result : grantResults) {
-				if (result != PackageManager.PERMISSION_GRANTED) {
-					allGranted = false;
-					break;
-				}
-			}
-			if (!allGranted) {
-				ToastUtil.showError(this, R.string.error_no_writiable_external_storage_available);
-			}
-		}
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 
 	@Override

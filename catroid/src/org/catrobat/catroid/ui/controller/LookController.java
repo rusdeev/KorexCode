@@ -62,10 +62,7 @@ import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
@@ -358,33 +355,12 @@ public final class LookController {
 		Uri imageUri = intent.getData();
 		if (imageUri != null) {
 
-			try {
-				Cursor cursor = activity.getContentResolver().query(imageUri,
-						new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(imageUri, new String[]{android.provider.MediaStore.Images.ImageColumns.DATA}, null, null, null);
 
-				if (cursor != null) {
-					int dataColumnIndex = cursor.getColumnIndex(android.provider.MediaStore.Images.ImageColumns.DATA);
-					if (cursor.moveToFirst() && dataColumnIndex >= 0) {
-						originalImagePath = cursor.getString(dataColumnIndex);
-					}
-					cursor.close();
-				}
-			} catch (Exception exception) {
-				// Some providers (e.g. modern photo pickers, cloud storage apps) do not
-				// expose a queryable file path at all - fall back to reading the file
-				// content directly below instead of crashing here.
-				Log.w(TAG, "Could not resolve file path from content URI, falling back to stream copy", exception);
-				originalImagePath = null;
-			}
-
-			// The queried path may be null, empty, or point to a file we cannot
-			// actually read (common with content:// URIs on modern Android). In that
-			// case copy the picked file's bytes to a temp file we do have access to.
-			if (originalImagePath == null || originalImagePath.equals("") || !new File(originalImagePath).canRead()) {
-				String copiedPath = copyContentUriToTempFile(imageUri, activity);
-				if (copiedPath != null) {
-					originalImagePath = copiedPath;
-				}
+			if (cursor != null) {
+				cursor.moveToFirst();
+				originalImagePath = cursor.getString(0);
+				cursor.close();
 			}
 		}
 
@@ -394,56 +370,6 @@ public final class LookController {
 			fragment.initOrRestartLoader(arguments);
 		} else {
 			copyImageToCatroid(originalImagePath, activity, lookDataList, fragment);
-		}
-	}
-
-	/**
-	 * Copies the content behind a content:// (or other non-file) URI into a temp
-	 * file on internal storage so the rest of the (path-based) look-import pipeline
-	 * can work with it as normal. Returns null if the content could not be read.
-	 */
-	private String copyContentUriToTempFile(Uri sourceUri, Activity activity) {
-		File tempDir = new File(Constants.TMP_PATH);
-		if (!tempDir.exists() && !tempDir.mkdirs()) {
-			Log.e(TAG, "Could not create temp directory for imported image");
-			return null;
-		}
-
-		String fileName = "imported_look_" + System.currentTimeMillis() + ".png";
-		File tempFile = new File(tempDir, fileName);
-
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
-		try {
-			inputStream = activity.getContentResolver().openInputStream(sourceUri);
-			if (inputStream == null) {
-				return null;
-			}
-			outputStream = new FileOutputStream(tempFile);
-
-			byte[] buffer = new byte[8192];
-			int bytesRead;
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-				outputStream.write(buffer, 0, bytesRead);
-			}
-			outputStream.flush();
-			return tempFile.getAbsolutePath();
-		} catch (IOException ioException) {
-			Log.e(TAG, "Failed to copy picked image into a readable temp file", ioException);
-			return null;
-		} finally {
-			closeQuietly(inputStream);
-			closeQuietly(outputStream);
-		}
-	}
-
-	private void closeQuietly(java.io.Closeable closeable) {
-		if (closeable != null) {
-			try {
-				closeable.close();
-			} catch (IOException ignored) {
-				// nothing we can do
-			}
 		}
 	}
 

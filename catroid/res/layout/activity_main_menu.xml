@@ -25,8 +25,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/application_background_color"
-              android:fitsSystemWindows="true"
-              android:clipToPadding="false"
               android:orientation="vertical" >
 
     <LinearLayout
@@ -64,106 +62,76 @@
         android:layout_marginBottom="8dp"
         android:background="@color/godot_card_border" />
 
-    <!--
-        ScrollView ensures every menu button stays reachable on shorter screens
-        or when the system navigation bar / gesture area takes extra space at
-        the bottom - without it, the last buttons (e.g. "Upload") get clipped
-        off the visible screen on many modern devices.
-    -->
-    <ScrollView
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/main_menu_button_continue"
+        style="@style/MainMenuButton"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp"
-        android:scrollbars="none" >
+        android:layout_weight="1.5"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:drawableLeft="@drawable/ic_main_menu_continue"
+        android:drawableStart="@drawable/ic_main_menu_continue"
+        android:onClick="handleContinueButton"
+        android:text="@string/main_menu_continue" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+    <Button
+        android:id="@+id/main_menu_button_new"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_new"
+        android:drawableStart="@drawable/ic_main_menu_new"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleNewButton"
+        android:text="@string/main_menu_new" />
 
-            <Button
-                android:id="@+id/main_menu_button_continue"
-                style="@style/MainMenuButton"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:drawableLeft="@drawable/ic_main_menu_continue"
-                android:drawableStart="@drawable/ic_main_menu_continue"
-                android:onClick="handleContinueButton"
-                android:text="@string/main_menu_continue" />
+    <Button
+        android:id="@+id/main_menu_button_programs"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_programs"
+        android:drawableStart="@drawable/ic_main_menu_programs"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleProgramsButton"
+        android:text="@string/main_menu_programs" />
 
-            <Button
-                android:id="@+id/main_menu_button_new"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_new"
-                android:drawableStart="@drawable/ic_main_menu_new"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleNewButton"
-                android:text="@string/main_menu_new" />
+    <Button
+        android:id="@+id/main_menu_button_help"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_help"
+        android:drawableStart="@drawable/ic_main_menu_help"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleHelpButton"
+        android:text="@string/main_menu_help" />
 
-            <Button
-                android:id="@+id/main_menu_button_programs"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_programs"
-                android:drawableStart="@drawable/ic_main_menu_programs"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleProgramsButton"
-                android:text="@string/main_menu_programs" />
+    <Button
+        android:id="@+id/main_menu_button_web"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_community"
+        android:drawableStart="@drawable/ic_main_menu_community"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleWebButton"
+        android:text="@string/main_menu_web" />
 
-            <Button
-                android:id="@+id/main_menu_button_help"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_help"
-                android:drawableStart="@drawable/ic_main_menu_help"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleHelpButton"
-                android:text="@string/main_menu_help" />
+    <Button
+        android:id="@+id/main_menu_button_telegram"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_community"
+        android:drawableStart="@drawable/ic_main_menu_community"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleTelegramButton"
+        android:text="@string/main_menu_telegram" />
 
-            <Button
-                android:id="@+id/main_menu_button_web"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_community"
-                android:drawableStart="@drawable/ic_main_menu_community"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleWebButton"
-                android:text="@string/main_menu_web" />
-
-            <Button
-                android:id="@+id/main_menu_button_telegram"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_community"
-                android:drawableStart="@drawable/ic_main_menu_community"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleTelegramButton"
-                android:text="@string/main_menu_telegram" />
-
-            <Button
-                android:id="@+id/main_menu_button_upload"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_upload"
-                android:drawableStart="@drawable/ic_main_menu_upload"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleUploadButton"
-                android:text="@string/main_menu_upload" />
-
-            <Button
-                android:id="@+id/main_menu_button_import"
-                style="@style/MainMenuButton"
-                android:drawableLeft="@drawable/ic_main_menu_upload"
-                android:drawableStart="@drawable/ic_main_menu_upload"
-                android:textAlignment="viewStart"
-                android:layout_gravity="start"
-                android:onClick="handleImportButton"
-                android:text="@string/main_menu_import" />
-
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:id="@+id/main_menu_button_upload"
+        style="@style/MainMenuButton"
+        android:drawableLeft="@drawable/ic_main_menu_upload"
+        android:drawableStart="@drawable/ic_main_menu_upload"
+        android:textAlignment="viewStart"
+        android:layout_gravity="start"
+        android:onClick="handleUploadButton"
+        android:text="@string/main_menu_upload" />
 
 </LinearLayout>

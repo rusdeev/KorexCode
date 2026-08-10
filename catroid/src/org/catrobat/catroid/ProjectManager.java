@@ -329,29 +329,6 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 		return false;
 	}
 
-	/**
-	 * Swaps the project's virtual screen width/height to switch between portrait
-	 * and landscape mode, then persists the change to disk. Used by the project
-	 * settings screen for an already-created project (as opposed to
-	 * initializeNewProject, which only applies at creation time).
-	 */
-	public void changeProjectOrientation(Context context, boolean landscapeMode) {
-		if (project == null) {
-			return;
-		}
-
-		int width = project.getXmlHeader().virtualScreenWidth;
-		int height = project.getXmlHeader().virtualScreenHeight;
-
-		boolean isCurrentlyLandscape = width > height;
-		if (isCurrentlyLandscape != landscapeMode) {
-			project.getXmlHeader().setVirtualScreenWidth(height);
-			project.getXmlHeader().setVirtualScreenHeight(width);
-		}
-
-		saveProject(context);
-	}
-
 	public void setProject(Project project) {
 		currentScript = null;
 		currentSprite = null;
